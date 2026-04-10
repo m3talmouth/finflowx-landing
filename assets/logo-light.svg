@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" height="64">
+  <defs>
+    <linearGradient id="flow-grad-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5F0EB"/>
+      <stop offset="100%" stop-color="#F5F0EB" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <!-- Logomark light variant -->
+  <g transform="translate(0,0)">
+    <path d="M12 8 C12 8, 20 18, 32 28 C44 18, 52 8, 52 8" fill="none" stroke="#F5F0EB" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <path d="M6 24 C6 24, 16 28, 32 32 C48 28, 58 24, 58 24" fill="none" stroke="#F5F0EB" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>
+    <path d="M32 24 L40 32 L32 40 L24 32 Z" fill="url(#flow-grad-light)" opacity="0.9"/>
+    <path d="M24 36 C18 42, 10 48, 8 54" fill="none" stroke="#7B4FA0" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M32 40 C32 44, 32 50, 32 56" fill="none" stroke="#F5F0EB" stroke-width="3" stroke-linecap="round"/>
+    <path d="M40 36 C46 42, 54 48, 56 54" fill="none" stroke="#7B4FA0" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+  </g>
+  <!-- FinFlowX text light -->
+  <text x="72" y="42" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="600" fill="#F5F0EB" letter-spacing="-0.5">
+    <tspan>Fin</tspan><tspan font-weight="700">Flow</tspan><tspan fill="#7B4FA0" font-weight="700">X</tspan>
+  </text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="flow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A5C6B"/>
+      <stop offset="100%" stop-color="#1A5C6B" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <!-- Three converging streams forming a unified flow point -->
+  <path d="M12 8 C12 8, 20 18, 32 28 C44 18, 52 8, 52 8" fill="none" stroke="#1A5C6B" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+  <path d="M6 24 C6 24, 16 28, 32 32 C48 28, 58 24, 58 24" fill="none" stroke="#1A5C6B" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Central convergence diamond -->
+  <path d="M32 24 L40 32 L32 40 L24 32 Z" fill="url(#flow-grad)" opacity="0.9"/>
+  <!-- Unified outflow streams -->
+  <path d="M24 36 C18 42, 10 48, 8 54" fill="none" stroke="#7B4FA0" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <path d="M32 40 C32 44, 32 50, 32 56" fill="none" stroke="#1A5C6B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 36 C46 42, 54 48, 56 54" fill="none" stroke="#7B4FA0" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+</svg>
