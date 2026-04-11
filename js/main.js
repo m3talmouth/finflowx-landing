@@ -90,6 +90,28 @@
   );
   sections.forEach((s) => sectionObserver.observe(s));
 
+  // --- Theme Toggle ---
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  function syncThemeButton() {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  syncThemeButton();
+
+  themeToggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    if (next === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.removeAttribute('data-theme');
+    }
+    try { localStorage.setItem('finflowx-theme', next); } catch (e) {}
+    syncThemeButton();
+  });
+
   // --- Contact Form Handling ---
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');

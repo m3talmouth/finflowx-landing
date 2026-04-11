@@ -46,6 +46,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Apply saved theme before render to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('finflowx-theme');
+        if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -60,9 +70,6 @@
           <text x="72" y="42" font-family="'Inter', sans-serif" font-size="28" font-weight="600" fill="#1A5C6B" letter-spacing="-0.5"><tspan>Fin</tspan><tspan font-weight="700">Flow</tspan><tspan fill="#7B4FA0" font-weight="700">X</tspan></text>
         </svg>
       </a>
-      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
       <ul class="nav__links" id="navLinks" role="menubar">
         <li role="none"><a href="#problem" role="menuitem">The Problem</a></li>
         <li role="none"><a href="#solution" role="menuitem">Solution</a></li>
@@ -70,6 +77,15 @@
         <li role="none"><a href="#audience" role="menuitem">Who It's For</a></li>
         <li role="none"><a href="#contact" role="menuitem" class="nav__cta">Get Early Access</a></li>
       </ul>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" aria-pressed="false">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
