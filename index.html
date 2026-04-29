@@ -89,6 +89,11 @@
     </div>
   </nav>
 
+  <!-- Mobile-only sticky CTA. Hidden on desktop via @media in css/style.css.
+       Becomes a persistent floating button so users can convert past the
+       hero fold without opening the hamburger menu. -->
+  <a href="#contact" class="btn btn--primary nav__cta-sticky" aria-label="Get early access">Get Early Access</a>
+
   <main id="main-content">
 
     <!-- Section 1: Hero -->
@@ -123,11 +128,11 @@
       <div class="container hero__content">
         <p class="hero__label reveal">AP/AR Automation, Reimagined</p>
         <h1 class="hero__title reveal">
-          Your invoices deserve<br>
-          <span class="hero__title-accent">better than spreadsheets.</span>
+          The AP/AR Operating System<br>
+          <span class="hero__title-accent">for any accounting stack.</span>
         </h1>
         <p class="hero__subtitle reveal">
-          Enterprise-grade Accounts Payable and Receivable automation — finally universal. Works with the accounting software you already use. AI-powered. Compliance built-in.
+          Three-way matching, dunning, cash-flow forecasting, and tax compliance — running on top of whatever accounting software you already use. No rip-and-replace.
         </p>
         <div class="hero__actions reveal">
           <a href="#contact" class="btn btn--primary">Get Early Access</a>
@@ -187,7 +192,7 @@
           <h2 class="section__title">Finance discipline,<br>finally <em>universal</em>.</h2>
           <p class="shift__text">For decades, enterprise-grade AP/AR controls — 3-way matching, dunning sequences, payment proposals, cash flow forecasting — have been gated behind six-figure ERP licenses. Only the largest companies could afford them.</p>
           <p class="shift__text"><strong>QuickBooks. Xero. Tally. Zoho. NetSuite. Sage. Or even CSV exports.</strong></p>
-          <p class="shift__text">FinFlowX takes every finance-operations capability the biggest enterprises have enjoyed for 50 years and makes it work with the software you already run. No migration. No six-month implementation. No new license fees.</p>
+          <p class="shift__text">FinFlowX is the AP/AR Operating System — a complete operating layer for invoice-to-payment that sits on top of the accounting software you already run. No migration. No six-month implementation. No new license fees.</p>
         </div>
         <!-- Abstract visual: disconnected nodes becoming connected -->
         <div class="shift__visual reveal" aria-hidden="true">
@@ -308,7 +313,7 @@
             <div class="audience__card-accent audience__card-accent--alt" aria-hidden="true"></div>
             <h3 class="audience__card-title">Mid-Market Businesses</h3>
             <p class="audience__card-subtitle">$500K to $50M annual revenue</p>
-            <p class="audience__card-text">Your finance team of 2 to 10 people runs on QuickBooks, Xero, Tally, or Zoho. Matching happens in Excel. Approvals happen via email. Collections happen via phone calls. Tax reconciliation happens by hand.</p>
+            <p class="audience__card-text">Your finance team of 2 to 10 people runs on whatever ERP fits — QuickBooks, Xero, NetSuite, Zoho, Tally, or a CSV export from something older. Matching happens in Excel. Approvals happen via email. Collections happen via phone calls. Tax reconciliation happens by hand.</p>
             <p class="audience__card-value">FinFlowX gives you enterprise-grade AP/AR automation at a fraction of enterprise cost. The CFO dashboards, the 3-way matching, the smart dunning — everything the big players have, sized for your reality.</p>
           </div>
         </div>
@@ -353,12 +358,12 @@
           <div class="different__item reveal">
             <svg class="different__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 L36 20 L20 36 L4 20 Z" fill="none" stroke="#1A5C6B" stroke-width="1.5"/><path d="M20 12 L28 20 L20 28 L12 20 Z" fill="#1A5C6B" opacity="0.15"/></svg>
             <h3 class="different__title">Enterprise discipline, democratized</h3>
-            <p class="different__text">Finance-operations methodology refined across 50 years and thousands of enterprises — without the six-figure license or the two-year rollout.</p>
+            <p class="different__text">An operating system for AP/AR, not another reporting tool. Process IP refined across decades of enterprise finance work — without the six-figure license or two-year rollout.</p>
           </div>
           <div class="different__item reveal">
             <svg class="different__icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" fill="none" stroke="#1A5C6B" stroke-width="1.5"/><path d="M12 20 L18 20 L20 14 L22 26 L24 20 L28 20" stroke="#7B4FA0" stroke-width="1.5" fill="none"/></svg>
             <h3 class="different__title">Deep where others are shallow</h3>
-            <p class="different__text">True two-way sync with the accounting platforms your business already runs — not just read-only imports. We go as deep on QuickBooks and Xero as we do on Tally and NetSuite. Every integration, first-class.</p>
+            <p class="different__text">True two-way sync with the accounting platforms your business already runs — not just read-only imports. Every connector first-class, no preferred ERP, no second-tier integrations.</p>
           </div>
           <div class="different__item reveal">
             <svg class="different__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 32 L20 8 L32 32" fill="none" stroke="#1A5C6B" stroke-width="1.5"/><circle cx="20" cy="22" r="4" fill="#7B4FA0" opacity="0.3"/></svg>
@@ -400,8 +405,8 @@
             </div>
             <div class="form__row">
               <div class="form__group">
-                <label for="phone" class="form__label">Phone Number <span class="form__required" aria-label="required">*</span></label>
-                <input type="tel" id="phone" name="phone" required class="form__input" autocomplete="tel">
+                <label for="phone" class="form__label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form__input" autocomplete="tel">
               </div>
               <div class="form__group">
                 <label for="company" class="form__label">Company / Firm Name <span class="form__required" aria-label="required">*</span></label>

@@ -113,13 +113,66 @@
   });
 
   // --- Contact Form Handling ---
+  //
+  // Fallback email — used when the primary form endpoint is unreachable
+  // (network down, endpoint dead, CORS issue). User sees a clear error
+  // message and a one-click mailto link with their data pre-filled, so
+  // submissions never disappear silently the way they did with the
+  // earlier "show success anyway" fallback.
+  const FALLBACK_EMAIL = 'hello@finflowx.io';
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
   const formSuccess = document.getElementById('formSuccess');
 
+  // Build a human-readable email body from the form fields so the
+  // mailto fallback carries the same information the API would have.
+  function buildMailtoFromForm(f) {
+    const data = new FormData(f);
+    const lines = [];
+    const fields = ['fullName', 'email', 'phone', 'company', 'role'];
+    for (const k of fields) {
+      const v = data.get(k);
+      if (v) lines.push(`${k}: ${v}`);
+    }
+    const software = data.getAll('software');
+    if (software.length) lines.push(`software: ${software.join(', ')}`);
+    const message = data.get('message');
+    if (message) lines.push(`\nmessage:\n${message}`);
+    const subject = encodeURIComponent('FinFlowX — Early Access Request');
+    const body = encodeURIComponent(lines.join('\n'));
+    return `mailto:${FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  // Render an inline error block above the submit button with a
+  // mailto: rescue link. Replaces any prior error so re-tries clear it.
+  function showSubmissionError(f, mailtoUrl) {
+    let err = f.querySelector('#formErrorBlock');
+    if (!err) {
+      err = document.createElement('div');
+      err.id = 'formErrorBlock';
+      err.style.cssText =
+        'margin: 12px 0; padding: 12px 16px; border: 1px solid #c0392b; ' +
+        'background: rgba(192, 57, 43, 0.06); border-radius: 8px; ' +
+        'color: #1A1A1A; font-size: 14px;';
+      const beforeEl = submitBtn.parentElement || submitBtn;
+      beforeEl.parentElement.insertBefore(err, beforeEl);
+    }
+    err.innerHTML =
+      '<strong>We couldn’t submit your request right now.</strong><br>' +
+      'Please <a href="' + mailtoUrl + '" style="color:#1A5C6B;text-decoration:underline;">' +
+      'email us directly at ' + FALLBACK_EMAIL + '</a> — ' +
+      'we’ve pre-filled the message with your details.';
+  }
+
+  function clearSubmissionError(f) {
+    const err = f.querySelector('#formErrorBlock');
+    if (err) err.remove();
+  }
+
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      clearSubmissionError(form);
 
       // Basic validation
       const required = form.querySelectorAll('[required]');
@@ -159,18 +212,36 @@
           formSuccess.hidden = false;
           form.reset();
         } else {
-          throw new Error('Form submission failed');
+          // Endpoint reached but rejected the submission (e.g. dead
+          // Formspree key returns 404 FORM_NOT_FOUND). Surface clearly
+          // and offer the mailto rescue.
+          throw new Error('Form endpoint rejected the submission (HTTP ' + response.status + ').');
         }
       } catch (err) {
-        // Fallback: show success anyway for demo (Formspree may not be configured)
-        formSuccess.hidden = false;
-        form.reset();
+        // Loud failure — show a real error with the mailto fallback link.
+        // No more silent "show success anyway" — that's how every prior
+        // submission has disappeared.
+        // eslint-disable-next-line no-console
+        console.error('FinFlowX form submission failed:', err);
+        showSubmissionError(form, buildMailtoFromForm(form));
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Get Early Access';
       }
     });
   }
+  // -- TODO: replace the Formspree endpoint in index.html (id=contactForm,
+  //          action attribute). The current id `xpzvqpjl` returns 404
+  //          FORM_NOT_FOUND. Three working options:
+  //   1. Sign up at https://formspree.io and replace the id with the new
+  //      one issued for the FinFlowX inbox.
+  //   2. Use https://formsubmit.co — change the action to
+  //      `https://formsubmit.co/<destination@email>`. No signup; first
+  //      submission triggers an email-confirmation handshake.
+  //   3. Use https://web3forms.com — free, requires a per-form access_key
+  //      that maps to a destination email; no signup beyond that.
+  // Until one of those is wired, the mailto fallback above keeps users
+  // from disappearing into the void.
 
   // --- Keyboard accessibility for mobile menu ---
   document.addEventListener('keydown', (e) => {

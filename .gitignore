@@ -1,0 +1,17 @@
+# Local Claude Code settings — never push to a public repo.
+.claude/
+
+# Internal strategic reviews — uncommitted by intent. If you want to
+# publish a review doc, move it to a separate repo or remove the entry.
+docs/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Stray shell-redirect cruft we've seen before
+{,+
+Enterprise-grade

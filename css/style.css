@@ -200,6 +200,9 @@ ul { list-style: none; }
 }
 .nav__toggle { display: none; }
 
+/* Mobile sticky CTA — hidden on desktop, shown by @media block below. */
+.nav__cta-sticky { display: none; }
+
 /* Theme Toggle */
 .theme-toggle {
   display: inline-flex;
@@ -273,6 +276,21 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   .nav__links--open { transform: translateX(0); }
   .nav__links a { font-size: 1rem; }
   .nav__cta { margin-top: 1rem; }
+
+  /* Sticky mobile CTA — keeps "Get Early Access" persistently reachable
+     past the hero fold. Lifts the CTA out of the slide-in panel so it's
+     visible without opening the hamburger. */
+  .nav__cta-sticky {
+    display: inline-flex !important;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    justify-content: center;
+    z-index: 99;
+    box-shadow: 0 8px 24px rgba(26, 92, 107, 0.18);
+    margin-top: 0;
+  }
 }
 
 /* --- Hero --- */

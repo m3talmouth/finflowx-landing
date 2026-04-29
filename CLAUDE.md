@@ -68,7 +68,7 @@ The result: duplicate payments go undetected, early payment discounts are missed
 
 ### What FinFlowX Does
 
-FinFlowX takes SAP's proven AP/AR methodology — refined over 50 years across thousands of enterprises — and makes it work with ANY accounting software. Tally, QuickBooks, Xero, Zoho, SAP itself, or even CSV exports. No SAP license required.
+FinFlowX takes fifty years of enterprise AP/AR process IP — document type architecture, configurable matching, automated dunning, partial-payment handling, multi-region tax compliance, automatic clearing — and makes it work with ANY accounting software. Connect to any ERP or finance system the business already runs (QuickBooks, Xero, Zoho, Tally, NetSuite, SAP, CSV exports — anything). No license required to bring in.
 
 **Core capabilities:**
 - **3-Way Matching** — Automatically match invoices against purchase orders and goods receipts. AI handles fuzzy amounts, partial deliveries, multi-line POs.
@@ -101,7 +101,7 @@ FinFlowX gives them enterprise-grade AP/AR automation at a fraction of enterpris
 - Positioned to partner with Big 5 advisory firms as a white-label AP/AR engine
 
 ### One-Liner
-"SAP-grade AP/AR automation for every accounting software. AI-powered. Compliance built-in."
+"The AP/AR Operating System for any accounting stack. AI-powered. Compliance built-in." (per D-035)
 
 ---
 
