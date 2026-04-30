@@ -268,18 +268,12 @@
       }
     });
   }
-  // -- TODO: replace the Formspree endpoint in index.html (id=contactForm,
-  //          action attribute). The current id `xpzvqpjl` returns 404
-  //          FORM_NOT_FOUND. Three working options:
-  //   1. Sign up at https://formspree.io and replace the id with the new
-  //      one issued for the FinFlowX inbox.
-  //   2. Use https://formsubmit.co — change the action to
-  //      `https://formsubmit.co/<destination@email>`. No signup; first
-  //      submission triggers an email-confirmation handshake.
-  //   3. Use https://web3forms.com — free, requires a per-form access_key
-  //      that maps to a destination email; no signup beyond that.
-  // Until one of those is wired, the mailto fallback above keeps users
-  // from disappearing into the void.
+  // -- Formspree endpoint live at https://formspree.io/f/mjglbljl (wired
+  //    2026-04-30). If submissions stop landing in the FinFlowX inbox,
+  //    check (a) the Formspree dashboard for plan limits, (b) the
+  //    `index.html` action attribute on #contactForm. The mailto fallback
+  //    above stays in place so users never disappear silently if the
+  //    endpoint goes down.
 
   // --- Keyboard accessibility for mobile menu ---
   document.addEventListener('keydown', (e) => {
