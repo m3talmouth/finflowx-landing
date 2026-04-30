@@ -169,32 +169,70 @@
     if (err) err.remove();
   }
 
+  // Set or clear an inline error message + aria-invalid on a single field.
+  // Sibling .form__error element appears under the input; styled by CSS.
+  function setFieldError(input, msg) {
+    if (!input) return;
+    input.setAttribute('aria-invalid', 'true');
+    const parent = input.parentElement;
+    if (!parent) return;
+    let errEl = parent.querySelector('.form__error');
+    if (!errEl) {
+      errEl = document.createElement('span');
+      errEl.className = 'form__error';
+      errEl.setAttribute('role', 'alert');
+      input.insertAdjacentElement('afterend', errEl);
+    }
+    errEl.textContent = msg;
+  }
+
+  function clearFieldError(input) {
+    if (!input) return;
+    input.removeAttribute('aria-invalid');
+    const parent = input.parentElement;
+    if (!parent) return;
+    const errEl = parent.querySelector('.form__error');
+    if (errEl) errEl.remove();
+  }
+
   if (form) {
+    // Live-clear errors as the user types.
+    form.addEventListener('input', (e) => {
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) {
+        clearFieldError(t);
+      }
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       clearSubmissionError(form);
 
-      // Basic validation
+      // Basic validation — required fields and email shape.
       const required = form.querySelectorAll('[required]');
       let valid = true;
+      let firstInvalid = null;
       required.forEach((input) => {
         if (!input.value.trim()) {
           valid = false;
-          input.style.borderColor = '#c0392b';
-          input.addEventListener('input', () => {
-            input.style.borderColor = '';
-          }, { once: true });
+          setFieldError(input, 'This field is required.');
+          firstInvalid = firstInvalid || input;
+        } else {
+          clearFieldError(input);
         }
       });
 
-      // Email validation
       const emailInput = form.querySelector('#email');
       if (emailInput && emailInput.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
         valid = false;
-        emailInput.style.borderColor = '#c0392b';
+        setFieldError(emailInput, 'Enter a valid business email.');
+        firstInvalid = firstInvalid || emailInput;
       }
 
-      if (!valid) return;
+      if (!valid) {
+        if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
+        return;
+      }
 
       // Submit
       submitBtn.disabled = true;

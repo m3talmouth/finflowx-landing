@@ -339,7 +339,12 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 }
 
 .hero__title-accent {
-  color: var(--primary);
+  /* Editorial cadence — line 2 drops weight + tone to give line 1 the
+     punch. (Designer review 2026-04-29: "if 'accent' is the same color
+     as the headline, it's dead markup pretending to be design.") */
+  color: var(--text-subtle);
+  font-weight: 500;
+  letter-spacing: -0.025em;
 }
 .hero__subtitle {
   font-size: clamp(1.0625rem, 2vw, 1.25rem);
@@ -384,10 +389,12 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   margin: 0 auto;
 }
 .pain__card {
-  padding: 2.5rem;
+  /* Designer 2026-04-29: drop the border to flatten this section so it
+     reads as a quiet diagnosis row rather than a third grid of equals. */
+  padding: 3rem;
   background: var(--white);
   border-radius: 12px;
-  border: 1px solid var(--border);
+  border: none;
 }
 .pain__card-icon { margin-bottom: 1.25rem; }
 .pain__card-title {
@@ -493,7 +500,11 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   margin-bottom: 1.25rem;
 }
 .capability__title {
-  font-size: 1.125rem;
+  /* Unified card-title scale (Designer review 2026-04-29) — was 1.125rem,
+     now matches pain/audience/whynow/different at 1.25rem so hierarchy
+     reads as one consistent tier across all six grids. */
+  font-size: 1.25rem;
+  line-height: 1.3;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.625rem;
@@ -503,6 +514,21 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   font-size: 0.9375rem;
   color: var(--text-subtle);
   line-height: 1.65;
+}
+
+/* Compliance one-liner under the capabilities grid (PM-4 follow-up:
+   we replaced the Tax Compliance tile with Partial Payments; tax
+   compliance survives here so the page still answers "do they handle
+   GST?" without needing a 7th tile that breaks the 3x2 grid). */
+.capabilities__compliance {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-subtle);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
 @media (max-width: 900px) {
@@ -524,11 +550,20 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   gap: 2rem;
 }
 .audience__card {
+  /* Designer 2026-04-29: elevate. The audience cards are the
+     highest-stakes containers (this is who we want to talk to), so
+     they earn structural prominence — solid white background, no
+     border, soft elevation shadow. Pain cards are flat above; capability
+     cards stay flat-bordered as a grid of equals. Hierarchy through
+     component variation. */
   position: relative;
   padding: 3rem 2.5rem;
-  background: var(--bg);
+  background: var(--white);
   border-radius: 12px;
-  border: 1px solid var(--border);
+  border: none;
+  box-shadow:
+    0 1px 0 var(--border),
+    0 24px 48px -24px rgba(26, 92, 107, 0.12);
   overflow: hidden;
 }
 .audience__card-accent {
@@ -539,7 +574,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 }
 .audience__card-accent--alt { background: var(--accent); }
 .audience__card-title {
-  font-size: 1.375rem;
+  /* Unified card-title scale — was 1.375rem. (Designer 2026-04-29) */
+  font-size: 1.25rem;
+  line-height: 1.3;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.25rem;
@@ -584,7 +621,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   margin-bottom: 1rem;
 }
 .whynow__title {
-  font-size: 1.125rem;
+  /* Unified card-title scale — was 1.125rem. (Designer 2026-04-29) */
+  font-size: 1.25rem;
+  line-height: 1.3;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.75rem;
@@ -625,7 +664,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   margin-bottom: 1.25rem;
 }
 .different__title {
-  font-size: 1.0625rem;
+  /* Unified card-title scale — was 1.0625rem. (Designer 2026-04-29) */
+  font-size: 1.25rem;
+  line-height: 1.3;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.5rem;
@@ -708,6 +749,23 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 .form__input:focus, .form__select:focus, .form__textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(26, 92, 107, 0.1);
+}
+/* Inline error state for required-field validation. (Designer 2026-04-29:
+   "form has no error state — native browser tooltips on a B2B page is
+   malpractice".) JS sets aria-invalid="true" + appends a .form__error
+   sibling on the offending field. */
+.form__input[aria-invalid="true"],
+.form__select[aria-invalid="true"],
+.form__textarea[aria-invalid="true"] {
+  border-color: #A03030;
+  box-shadow: 0 0 0 3px rgba(160, 48, 48, 0.10);
+}
+.form__error {
+  display: block;
+  font-size: 0.8125rem;
+  color: #A03030;
+  margin-top: 6px;
+  font-weight: 500;
 }
 .form__textarea { resize: vertical; min-height: 100px; }
 .form__select {
@@ -868,11 +926,14 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   opacity: 0.7;
 }
 
-/* --- Reveal Animations --- */
+/* --- Reveal Animations ---
+   Designer review 2026-04-29: dial down. Original 24px / 0.7s on every
+   element produced a Mexican-wave effect on scroll. Halved both values
+   so motion remains noticeable but doesn't dominate the page rhythm. */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 .reveal--visible {
   opacity: 1;
