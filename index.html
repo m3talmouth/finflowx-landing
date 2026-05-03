@@ -517,8 +517,8 @@
         <form class="contact-form" id="contactForm" action="https://formspree.io/f/mjglbljl" method="POST" novalidate>
 
           <!-- About You -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">About You</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-about">
+            <div class="form__legend" id="legend-about">About You</div>
             <div class="form__row">
               <div class="form__group">
                 <label for="fullName" class="form__label">Full Name <span class="form__required" aria-label="required">*</span></label>
@@ -539,11 +539,11 @@
                 <input type="text" id="company" name="company" required class="form__input" autocomplete="organization">
               </div>
             </div>
-          </fieldset>
+          </div>
 
           <!-- Your Role -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">Your Role</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-role">
+            <div class="form__legend" id="legend-role">Your Role</div>
             <div class="form__radios">
               <label class="form__radio">
                 <input type="radio" name="role" value="Accounting/Advisory Firm Leader">
@@ -566,11 +566,11 @@
                 Other
               </label>
             </div>
-          </fieldset>
+          </div>
 
           <!-- Current Setup -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">Your Current Setup</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-setup">
+            <div class="form__legend" id="legend-setup">Your Current Setup</div>
             <div class="form__group">
               <p class="form__sublabel">What accounting software do you use?</p>
               <div class="form__checkboxes">
@@ -595,11 +595,11 @@
                 <option value="100+">100+</option>
               </select>
             </div>
-          </fieldset>
+          </div>
 
           <!-- Challenges -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">Your Challenges</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-challenges">
+            <div class="form__legend" id="legend-challenges">Your Challenges</div>
             <p class="form__sublabel">What are your biggest AP/AR challenges?</p>
             <div class="form__checkboxes">
               <label class="form__checkbox"><input type="checkbox" name="challenges" value="Invoice matching"><span class="form__check-mark"></span>Invoice matching is manual and error-prone</label>
@@ -611,11 +611,11 @@
               <label class="form__checkbox"><input type="checkbox" name="challenges" value="Multi-platform management"><span class="form__check-mark"></span>Managing multiple clients on different platforms</label>
               <label class="form__checkbox"><input type="checkbox" name="challenges" value="Other"><span class="form__check-mark"></span>Other</label>
             </div>
-          </fieldset>
+          </div>
 
           <!-- Interest -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">Your Interest</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-interest">
+            <div class="form__legend" id="legend-interest">Your Interest</div>
             <p class="form__sublabel">What interests you most about FinFlowX?</p>
             <div class="form__checkboxes">
               <label class="form__checkbox"><input type="checkbox" name="interests" value="3-Way Matching"><span class="form__check-mark"></span>3-Way Matching automation</label>
@@ -646,16 +646,16 @@
                 </label>
               </div>
             </div>
-          </fieldset>
+          </div>
 
           <!-- Anything Else -->
-          <fieldset class="form__fieldset reveal">
-            <legend class="form__legend">Anything Else</legend>
+          <div class="form__fieldset reveal" role="group" aria-labelledby="legend-other">
+            <div class="form__legend" id="legend-other">Anything Else</div>
             <div class="form__group">
               <label for="message" class="form__label">Tell us anything else about your situation or what you're looking for.</label>
               <textarea id="message" name="message" rows="4" class="form__textarea"></textarea>
             </div>
-          </fieldset>
+          </div>
 
           <div class="form__submit reveal">
             <button type="submit" class="btn btn--primary btn--large" id="submitBtn">Get Early Access</button>
