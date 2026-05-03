@@ -287,43 +287,199 @@
   });
 })();
 
-// ── S4: Matching demo walkthrough widget ────────────────────────────────────
+// ── S4: Matching demo walkthrough widget — full interactive ─────────────────
 
 (function initDemoWidget() {
-  const steps = document.querySelectorAll('.demo-widget__step');
+  'use strict';
+
+  const steps = Array.from(document.querySelectorAll('.demo-widget__step'));
   const verdict = document.getElementById('demo-verdict');
   const restartBtn = document.getElementById('demo-restart');
+  const pauseBtn = document.getElementById('demo-pause');
+  const progressBar = document.getElementById('demo-progress-bar');
+  const scrubDots = Array.from(document.querySelectorAll('.demo-widget__dot'));
+  const widget = document.getElementById('matching-demo');
+
   if (!steps.length || !verdict || !restartBtn) return;
 
-  const STEP_DELAY = 1800; // ms per step
+  const STEP_DELAY = 2200;   // ms between steps auto-advancing
+  const TICK_MS = 50;        // progress bar animation tick
 
-  function runDemo() {
-    // Reset
+  let currentStep = -1;      // -1 = not started
+  let paused = false;
+  let timers = [];
+  let progressInterval = null;
+  let progressStart = null;
+  let autoPlayed = false;
+
+  // ── state helpers ──────────────────────────────────────────────────────────
+
+  function clearTimers() {
+    timers.forEach(clearTimeout);
+    timers = [];
+    if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+  }
+
+  function setStep(idx) {
+    currentStep = idx;
+
+    // Reveal steps up to and including idx
+    steps.forEach((s, i) => {
+      if (i <= idx) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+
+    // Update scrub dots
+    scrubDots.forEach((dot, i) => {
+      dot.classList.toggle('demo-widget__dot--active', i <= idx);
+      dot.classList.toggle('demo-widget__dot--current', i === idx);
+    });
+
+    // Show verdict when last step reached
+    if (idx === steps.length - 1) {
+      setTimeout(() => verdict.classList.add('visible'), STEP_DELAY / 3);
+    } else {
+      verdict.classList.remove('visible');
+    }
+  }
+
+  function resetVisuals() {
     steps.forEach((s) => s.classList.remove('active'));
     verdict.classList.remove('visible');
+    scrubDots.forEach((d) => {
+      d.classList.remove('demo-widget__dot--active', 'demo-widget__dot--current');
+    });
+    if (progressBar) { progressBar.style.width = '0%'; }
+    currentStep = -1;
+  }
 
-    steps.forEach((step, i) => {
-      setTimeout(() => {
-        step.classList.add('active');
-        if (i === steps.length - 1) {
-          setTimeout(() => verdict.classList.add('visible'), STEP_DELAY / 2);
-        }
-      }, i * STEP_DELAY + 300);
+  // ── progress bar ───────────────────────────────────────────────────────────
+
+  function startProgress(targetPct, durationMs, onDone) {
+    if (progressInterval) clearInterval(progressInterval);
+    const startPct = parseFloat(progressBar ? progressBar.style.width : '0') || 0;
+    const range = targetPct - startPct;
+    const ticks = durationMs / TICK_MS;
+    let tick = 0;
+    progressStart = Date.now();
+    progressInterval = setInterval(() => {
+      if (paused) return;
+      tick++;
+      const pct = startPct + (range * Math.min(tick / ticks, 1));
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (tick >= ticks) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+        if (onDone) onDone();
+      }
+    }, TICK_MS);
+  }
+
+  // ── playback engine ────────────────────────────────────────────────────────
+
+  function scheduleStep(idx, delay) {
+    const t = setTimeout(() => {
+      if (paused) return;   // step fires but is ignored when paused; restart resumes from here
+      setStep(idx);
+      const totalSteps = steps.length;
+      const pctEnd = ((idx + 1) / totalSteps) * 100;
+      startProgress(pctEnd, STEP_DELAY * 0.85, () => {
+        if (idx < totalSteps - 1) scheduleStep(idx + 1, 0);
+      });
+    }, delay);
+    timers.push(t);
+  }
+
+  function startFrom(fromIdx) {
+    clearTimers();
+    paused = false;
+    if (pauseBtn) { pauseBtn.textContent = '⏸ Pause'; }
+
+    if (fromIdx === 0) resetVisuals();
+
+    const totalSteps = steps.length;
+    const startPct = fromIdx === 0 ? 0 : ((fromIdx) / totalSteps) * 100;
+    if (progressBar) progressBar.style.width = startPct + '%';
+
+    scheduleStep(fromIdx, fromIdx === 0 ? 300 : 0);
+  }
+
+  function runDemo() { startFrom(0); }
+
+  // ── pause / resume ─────────────────────────────────────────────────────────
+
+  let pausedAtStep = -1;
+
+  function pause() {
+    paused = true;
+    pausedAtStep = currentStep;
+    clearTimers();
+    if (pauseBtn) { pauseBtn.textContent = '▶ Resume'; }
+  }
+
+  function resume() {
+    paused = false;
+    if (pauseBtn) { pauseBtn.textContent = '⏸ Pause'; }
+    const nextStep = pausedAtStep < steps.length - 1 ? pausedAtStep + 1 : 0;
+    if (pausedAtStep >= steps.length - 1) {
+      runDemo();
+    } else {
+      startFrom(nextStep);
+    }
+  }
+
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+      if (paused) resume(); else pause();
     });
   }
 
+  // ── restart ─────────────────────────────────────────────────────────────────
+
   restartBtn.addEventListener('click', runDemo);
 
-  // Auto-play when widget enters viewport
+  // ── scrub dots ─────────────────────────────────────────────────────────────
+
+  scrubDots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const target = parseInt(dot.dataset.goto, 10);
+      clearTimers();
+      paused = false;
+      if (pauseBtn) { pauseBtn.textContent = '⏸ Pause'; }
+      setStep(target);
+      const totalSteps = steps.length;
+      if (progressBar) progressBar.style.width = ((target + 1) / totalSteps * 100) + '%';
+      // Continue auto-playing from next step
+      if (target < totalSteps - 1) {
+        scheduleStep(target + 1, STEP_DELAY);
+      }
+    });
+  });
+
+  // ── keyboard ─────────────────────────────────────────────────────────────────
+
+  document.addEventListener('keydown', (e) => {
+    if (!widget || !widget.getBoundingClientRect) return;
+    const rect = widget.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'k') { e.preventDefault(); paused ? resume() : pause(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); if (currentStep < steps.length - 1) { clearTimers(); setStep(currentStep + 1); scheduleStep(currentStep + 1, 0); } }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); if (currentStep > 0) { clearTimers(); setStep(currentStep - 1); scheduleStep(currentStep, STEP_DELAY); } }
+    if (e.key === 'r') runDemo();
+  });
+
+  // ── auto-play on scroll ─────────────────────────────────────────────────────
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !autoPlayed) {
+        autoPlayed = true;
         runDemo();
         observer.disconnect();
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.35 });
 
-  const widget = document.getElementById('matching-demo');
   if (widget) observer.observe(widget);
 })();

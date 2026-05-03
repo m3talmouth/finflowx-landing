@@ -1239,3 +1239,70 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   color: var(--primary);
   text-decoration: underline;
 }
+
+/* ── S4 widget enhancements: progress bar + scrub dots ─────────────────── */
+
+.demo-widget__progress {
+  height: 3px;
+  background: rgba(26,92,107,0.12);
+  overflow: hidden;
+}
+
+.demo-widget__progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width 0.05s linear;
+}
+
+.demo-widget__scrub {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg, #f5f0eb);
+  border-top: 1px solid rgba(26,92,107,0.08);
+}
+
+.demo-widget__dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(26,92,107,0.25);
+  background: #fff;
+  color: var(--text-subtle, #6b6b6b);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.demo-widget__dot--active {
+  background: rgba(26,92,107,0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.demo-widget__dot--current {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  transform: scale(1.12);
+}
+
+.demo-widget__dot:hover:not(.demo-widget__dot--current) {
+  border-color: var(--primary);
+  background: rgba(26,92,107,0.06);
+}
+
+/* Pause button style (distinct from Replay) */
+#demo-pause {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+#demo-pause:hover {
+  opacity: 0.88;
+  background: var(--primary);
+}

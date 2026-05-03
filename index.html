@@ -497,8 +497,19 @@
             </p>
           </div>
 
+          <!-- Step scrub dots + progress bar -->
+          <div class="demo-widget__progress" id="demo-progress">
+            <div class="demo-widget__progress-bar" id="demo-progress-bar"></div>
+          </div>
+          <div class="demo-widget__scrub" id="demo-scrub" aria-label="Jump to step">
+            <button class="demo-widget__dot demo-widget__dot--active" data-goto="0" aria-label="Step 1: Initial Matcher" title="V₀ — Initial Matcher">1</button>
+            <button class="demo-widget__dot" data-goto="1" aria-label="Step 2: Challenger" title="V₁ — Challenger">2</button>
+            <button class="demo-widget__dot" data-goto="2" aria-label="Step 3: Final Verdict" title="V₂ — Final Verdict">3</button>
+          </div>
+
           <div class="demo-widget__controls">
-            <button class="demo-widget__btn" id="demo-restart">Replay ↺</button>
+            <button class="demo-widget__btn" id="demo-pause" aria-label="Pause">⏸ Pause</button>
+            <button class="demo-widget__btn" id="demo-restart" aria-label="Replay from start">↺ Replay</button>
             <a href="#contact" class="demo-widget__cta">See this on your own books — book a demo →</a>
           </div>
         </div>
