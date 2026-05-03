@@ -382,7 +382,130 @@
       </div>
     </section>
 
-    <!-- Section 8: Contact -->
+    <!-- Section 8: Before / After (S5) -->
+    <section class="section section--before-after" id="before-after">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label reveal">The Difference</p>
+          <h2 class="section__title reveal">What changes when FinFlowX handles matching</h2>
+          <p class="ba__headline reveal">
+            85% of invoices auto-matched in under 2 seconds. The other 15% land in a human queue — with full context.
+          </p>
+        </div>
+        <div class="ba__grid reveal">
+          <div class="ba__col ba__col--before">
+            <div class="ba__label">Before</div>
+            <div class="ba__title">Manual invoice matching</div>
+            <ul class="ba__list">
+              <li>Open Tally, search for the PO, compare amounts by hand</li>
+              <li>Open email for the PO copy your colleague forwarded last week</li>
+              <li>Open WhatsApp to check if the vendor dispute is resolved</li>
+              <li>Eyeball the amounts — close enough? Approve. Not sure? Leave it.</li>
+              <li>No audit trail. No confidence score. No pattern memory.</li>
+              <li class="ba__time">4 minutes per invoice · often wrong on tolerance · nothing learned</li>
+            </ul>
+          </div>
+          <div class="ba__col ba__col--after">
+            <div class="ba__label">After</div>
+            <div class="ba__title">FinFlowX agents handle it</div>
+            <ul class="ba__list">
+              <li>Agent reads the invoice, finds the PO and goods receipt automatically</li>
+              <li>Scores the match: amount tolerance ±2%, quantity check, date range</li>
+              <li>Surfaces context: this vendor matched 94% of the time in the last 12 months</li>
+              <li>Hands you a verdict: "Safe to approve — 3.08% over PO, likely GST rounding"</li>
+              <li>Full audit trail. Confidence score. Decision recorded forever.</li>
+              <li class="ba__time ba__time--green">8 seconds · reviewers agree 93% of the time · every decision traceable</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 9: Live Matching Demo (S4) -->
+    <section class="section section--demo-widget" id="demo-widget">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label reveal">See It Live</p>
+          <h2 class="section__title reveal">Watch a real invoice get matched</h2>
+          <p class="section__subtitle reveal">
+            This is a replay of an actual seed-data match run — the agent steps, the reasoning, the verdict.
+            No slides, no screencast. The actual engine.
+          </p>
+        </div>
+
+        <div class="demo-widget reveal" id="matching-demo">
+          <div class="demo-widget__invoice">
+            <div class="demo-widget__inv-header">
+              <span class="demo-widget__label">Invoice</span>
+              <span class="demo-widget__inv-id">INV-ACME-2026-00047</span>
+            </div>
+            <div class="demo-widget__inv-row">
+              <span class="demo-widget__inv-k">Vendor</span>
+              <span class="demo-widget__inv-v">Acme 003 Supplies Pvt Ltd</span>
+            </div>
+            <div class="demo-widget__inv-row">
+              <span class="demo-widget__inv-k">Amount</span>
+              <span class="demo-widget__inv-v">₹1,18,000 INR</span>
+            </div>
+            <div class="demo-widget__inv-row">
+              <span class="demo-widget__inv-k">Date</span>
+              <span class="demo-widget__inv-v">2026-03-14</span>
+            </div>
+            <div class="demo-widget__inv-row">
+              <span class="demo-widget__inv-k">PO reference</span>
+              <span class="demo-widget__inv-v">PO-2026-0031</span>
+            </div>
+          </div>
+
+          <div class="demo-widget__steps" id="demo-steps">
+            <div class="demo-widget__step" data-step="0">
+              <div class="demo-widget__step-head">
+                <span class="demo-widget__step-label">V₀</span>
+                <span class="demo-widget__step-role">Initial Matcher</span>
+                <span class="demo-widget__step-model">gemini-2.5-flash</span>
+              </div>
+              <p class="demo-widget__step-text">
+                Found PO-2026-0031 for ₹1,15,000. Invoice is ₹3,000 over PO (2.61%). Checking tolerance threshold — company rule allows ±3% for amount. Quantity match: 50 units billed, 50 units on PO. Date within 14 days.
+              </p>
+            </div>
+            <div class="demo-widget__step" data-step="1">
+              <div class="demo-widget__step-head">
+                <span class="demo-widget__step-label">V₁</span>
+                <span class="demo-widget__step-role">Challenger</span>
+                <span class="demo-widget__step-model">gemini-2.5-flash</span>
+              </div>
+              <p class="demo-widget__step-text">
+                Agreed on the PO link. The ₹3,000 overage — checking whether GST at 18% on ₹15,254 could explain it. 18% of ₹15,254 = ₹2,746. Rounding to ₹3,000 is plausible (freight adjustment). Confidence: high.
+              </p>
+            </div>
+            <div class="demo-widget__step" data-step="2">
+              <div class="demo-widget__step-head">
+                <span class="demo-widget__step-label">V₂</span>
+                <span class="demo-widget__step-role">Final Verdict</span>
+                <span class="demo-widget__step-model">gemini-2.5-flash</span>
+              </div>
+              <p class="demo-widget__step-text">
+                <strong>Auto-matched.</strong> PO-2026-0031 ↔ INV-ACME-2026-00047. Confidence: 0.973. Variance within tolerance — amount 2.61%, quantity exact, date 3 days. Likely GST + freight rounding. No human review required.
+              </p>
+            </div>
+          </div>
+
+          <div class="demo-widget__verdict" id="demo-verdict">
+            <span class="demo-widget__verdict-badge">Auto-matched · 97.3% confidence</span>
+            <p class="demo-widget__verdict-text">
+              Matched in 1.8 seconds. Zero human time. Audit trail stored forever.
+            </p>
+          </div>
+
+          <div class="demo-widget__controls">
+            <button class="demo-widget__btn" id="demo-restart">Replay ↺</button>
+            <a href="#contact" class="demo-widget__cta">See this on your own books — book a demo →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 10: Contact -->
     <section class="section section--contact" id="contact">
       <div class="container">
         <div class="section__header">

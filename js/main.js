@@ -286,3 +286,44 @@
     }
   });
 })();
+
+// ── S4: Matching demo walkthrough widget ────────────────────────────────────
+
+(function initDemoWidget() {
+  const steps = document.querySelectorAll('.demo-widget__step');
+  const verdict = document.getElementById('demo-verdict');
+  const restartBtn = document.getElementById('demo-restart');
+  if (!steps.length || !verdict || !restartBtn) return;
+
+  const STEP_DELAY = 1800; // ms per step
+
+  function runDemo() {
+    // Reset
+    steps.forEach((s) => s.classList.remove('active'));
+    verdict.classList.remove('visible');
+
+    steps.forEach((step, i) => {
+      setTimeout(() => {
+        step.classList.add('active');
+        if (i === steps.length - 1) {
+          setTimeout(() => verdict.classList.add('visible'), STEP_DELAY / 2);
+        }
+      }, i * STEP_DELAY + 300);
+    });
+  }
+
+  restartBtn.addEventListener('click', runDemo);
+
+  // Auto-play when widget enters viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        runDemo();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const widget = document.getElementById('matching-demo');
+  if (widget) observer.observe(widget);
+})();
